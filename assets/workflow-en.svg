@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="480" viewBox="0 0 1120 480" role="img" aria-labelledby="title desc">
+  <title id="title">Circuit design, visible wiring and simulation verification workflow</title>
+  <desc id="desc">Eight stages follow the arrows: select components, build modules, validate modules, connect modules, verify the system, review performance, review layout, and reopen and deliver. Codex reviews each stage against the current project. All process connectors are horizontal or vertical.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" markerUnits="strokeWidth">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="#222"/>
+    </marker>
+    <style>
+      text { font-family: "Times New Roman", "Liberation Serif", serif; fill: #111; text-anchor: middle; }
+      .heading { font-size: 19px; font-weight: 700; }
+      .detail { font-size: 17px; }
+      .note { font-size: 18px; }
+      .box { fill: #fff; stroke: #222; stroke-width: 1.5; }
+      .divider { stroke: #999; stroke-width: 1; }
+      .flow { fill: none; stroke: #222; stroke-width: 1.7; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect width="1120" height="480" fill="#fff"/>
+  <text class="note" x="560" y="35">Review criteria: project requirements, component datasheets and module interfaces</text>
+  <line x1="40" y1="52" x2="1080" y2="52" class="divider"/>
+
+  <g>
+    <rect class="box" x="40" y="85" width="215" height="110"/>
+    <text class="heading" x="147.5" y="117">1  Select components</text>
+    <line class="divider" x1="40" y1="132" x2="255" y2="132"/>
+    <text class="detail" x="147.5" y="159">Check parts, models and pins</text>
+    <text class="detail" x="147.5" y="183">Set interfaces and targets</text>
+  </g>
+  <g>
+    <rect class="box" x="315" y="85" width="215" height="110"/>
+    <text class="heading" x="422.5" y="117">2  Build modules</text>
+    <line class="divider" x1="315" y1="132" x2="530" y2="132"/>
+    <text class="detail" x="422.5" y="159">Review parts and parameters</text>
+    <text class="detail" x="422.5" y="183">Inspect native connections</text>
+  </g>
+  <g>
+    <rect class="box" x="590" y="85" width="215" height="110"/>
+    <text class="heading" x="697.5" y="117">3  Validate modules</text>
+    <line class="divider" x1="590" y1="132" x2="805" y2="132"/>
+    <text class="detail" x="697.5" y="159">Check electrical behavior</text>
+    <text class="detail" x="697.5" y="183">Verify targets and interfaces</text>
+  </g>
+  <g>
+    <rect class="box" x="865" y="85" width="215" height="110"/>
+    <text class="heading" x="972.5" y="117">4  Connect modules</text>
+    <line class="divider" x1="865" y1="132" x2="1080" y2="132"/>
+    <text class="detail" x="972.5" y="159">Route continuous wires</text>
+    <text class="detail" x="972.5" y="183">Check interface compatibility</text>
+  </g>
+
+  <path class="flow" d="M 255 140 H 313"/>
+  <path class="flow" d="M 530 140 H 588"/>
+  <path class="flow" d="M 805 140 H 863"/>
+  <path class="flow" d="M 972.5 195 V 273"/>
+
+  <g>
+    <rect class="box" x="865" y="275" width="215" height="110"/>
+    <text class="heading" x="972.5" y="307">5  Verify the system</text>
+    <line class="divider" x1="865" y1="322" x2="1080" y2="322"/>
+    <text class="detail" x="972.5" y="349">Test operating conditions</text>
+    <text class="detail" x="972.5" y="373">Check function and constraints</text>
+  </g>
+  <g>
+    <rect class="box" x="590" y="275" width="215" height="110"/>
+    <text class="heading" x="697.5" y="307">6  Review performance</text>
+    <line class="divider" x1="590" y1="322" x2="805" y2="322"/>
+    <text class="detail" x="697.5" y="349">Locate actual bottlenecks</text>
+    <text class="detail" x="697.5" y="373">Compare runtime and results</text>
+  </g>
+  <g>
+    <rect class="box" x="315" y="275" width="215" height="110"/>
+    <text class="heading" x="422.5" y="307">7  Review layout</text>
+    <line class="divider" x1="315" y1="322" x2="530" y2="322"/>
+    <text class="detail" x="422.5" y="349">Audit exported geometry</text>
+    <text class="detail" x="422.5" y="373">Inspect whole and detail views</text>
+  </g>
+  <g>
+    <rect class="box" x="40" y="275" width="215" height="110"/>
+    <text class="heading" x="147.5" y="307">8  Reopen and deliver</text>
+    <line class="divider" x1="40" y1="322" x2="255" y2="322"/>
+    <text class="detail" x="147.5" y="349">Check files and dependencies</text>
+    <text class="detail" x="147.5" y="373">Record evidence and issues</text>
+  </g>
+  <path class="flow" d="M 865 330 H 807"/>
+  <path class="flow" d="M 590 330 H 532"/>
+  <path class="flow" d="M 315 330 H 257"/>
+
+  <line x1="40" y1="420" x2="1080" y2="420" class="divider"/>
+  <text class="note" x="560" y="451">Codex reviews each stage for the project; fix identified issues and repeat affected checks.</text>
+</svg>
