@@ -10,25 +10,9 @@ An agent skill for circuit schematic design, explicit visible wiring, modular si
 
 ## 工作流程
 
-```mermaid
-flowchart TD
-    A["1 · 确定元件与架构<br/>Codex 复核：要求、采购、模型、引脚和接口"]
-    B["2 · 分模块实现<br/>Codex 复核：元件、参数、外围与原生导线"]
-    C["3 · 模块局部验证<br/>Codex 复核：实际电气行为与该模块要求"]
-    D["4 · 模块间连接<br/>Codex 复核：可见信号线、电源、地与实际连通性"]
-    E["5 · 整机功能复核<br/>对照项目指标、电气约束与实际测试结果"]
-    F["6 · 仿真效率复核<br/>按项目分析瓶颈，同条件比较速度与正确性"]
-    G["7 · 自动检查可视化清晰度<br/>几何检查报告 + Codex 查看整图与局部"]
-    H["8 · 保存重开与交付复核<br/>最终文件、参数入口、依赖与证据一致"]
-    A --> B --> C --> D --> E --> F --> G --> H
-    C -. "失败：修复对应模块" .-> B
-    E -. "连接异常：修复接口" .-> D
-    G -. "重排后重验连接与功能" .-> D
-    classDef build fill:#eef6ff,stroke:#4276a8,color:#163451
-    classDef review fill:#edf8f0,stroke:#45865b,color:#21452e
-    class A,B,D build
-    class C,E,F,G,H review
-```
+![电路设计与分阶段复核工作流程](assets/workflow.svg)
+
+[查看 SVG 矢量原图](assets/workflow.svg)。采用统一方框、水平/垂直连线和黑白排版，按箭头顺序阅读。
 
 **每个模块、每项修改、每个阶段完成后都有 Codex 复核。复核项根据具体项目生成，检查实际电路及电气连接中存在的问题。** 器件手册、模块接口和项目指标决定检查方式、测试条件及通过标准，不固定套用温度计或数码管案例。失败回到对应环节修复，再重验受影响模块及下游功能。记录“通过 / 失败 / 未验证 / 不适用”及证据；缺少该项所需证据时不写通过。检查点由 Codex 执行，不要求用户逐项确认。
 
@@ -195,6 +179,7 @@ python -m unittest discover -s tests -v
 ```text
 README.md
 LICENSE
+assets/workflow.svg
 skills/circuit-schematic-wiring-simulation/
   SKILL.md
   LICENSE
