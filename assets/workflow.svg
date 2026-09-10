@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="480" viewBox="0 0 1120 480" role="img" aria-labelledby="title desc">
+  <title id="title">电路设计、可见接线与仿真验证工作流程</title>
+  <desc id="desc">八个阶段按箭头排列：确定元件与架构、分模块实现、模块局部验证、模块间连接、整机功能复核、仿真效率复核、可视化清晰度检查、重开与交付复核。每个阶段由 Codex 根据具体项目复核实际电路及电气连接。所有流程连线为水平或垂直直线。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" markerUnits="strokeWidth">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="#222"/>
+    </marker>
+    <style>
+      text { font-family: "SimSun", "Noto Serif CJK SC", "Source Han Serif SC", serif; fill: #111; text-anchor: middle; }
+      .heading { font-size: 20px; font-weight: 700; }
+      .detail { font-size: 17px; }
+      .note { font-size: 18px; }
+      .box { fill: #fff; stroke: #222; stroke-width: 1.5; }
+      .divider { stroke: #999; stroke-width: 1; }
+      .flow { fill: none; stroke: #222; stroke-width: 1.7; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect width="1120" height="480" fill="#fff"/>
+  <text class="note" x="560" y="35">复核依据：当前项目要求、器件资料与模块接口</text>
+  <line x1="40" y1="52" x2="1080" y2="52" class="divider"/>
+
+  <g>
+    <rect class="box" x="40" y="85" width="215" height="110"/>
+    <text class="heading" x="147.5" y="117">1  确定元件与架构</text>
+    <line class="divider" x1="40" y1="132" x2="255" y2="132"/>
+    <text class="detail" x="147.5" y="159">核对选型、模型与引脚</text>
+    <text class="detail" x="147.5" y="183">建立模块接口与指标</text>
+  </g>
+  <g>
+    <rect class="box" x="315" y="85" width="215" height="110"/>
+    <text class="heading" x="422.5" y="117">2  分模块实现</text>
+    <line class="divider" x1="315" y1="132" x2="530" y2="132"/>
+    <text class="detail" x="422.5" y="159">核对实际器件与参数</text>
+    <text class="detail" x="422.5" y="183">检查原生导线及连接</text>
+  </g>
+  <g>
+    <rect class="box" x="590" y="85" width="215" height="110"/>
+    <text class="heading" x="697.5" y="117">3  模块局部验证</text>
+    <line class="divider" x1="590" y1="132" x2="805" y2="132"/>
+    <text class="detail" x="697.5" y="159">复核本模块的电气行为</text>
+    <text class="detail" x="697.5" y="183">对照项目指标与接口</text>
+  </g>
+  <g>
+    <rect class="box" x="865" y="85" width="215" height="110"/>
+    <text class="heading" x="972.5" y="117">4  模块间连接</text>
+    <line class="divider" x1="865" y1="132" x2="1080" y2="132"/>
+    <text class="detail" x="972.5" y="159">绘制连续可见的导线</text>
+    <text class="detail" x="972.5" y="183">复核连通与接口兼容</text>
+  </g>
+
+  <path class="flow" d="M 255 140 H 313"/>
+  <path class="flow" d="M 530 140 H 588"/>
+  <path class="flow" d="M 805 140 H 863"/>
+  <path class="flow" d="M 972.5 195 V 273"/>
+
+  <g>
+    <rect class="box" x="865" y="275" width="215" height="110"/>
+    <text class="heading" x="972.5" y="307">5  整机功能复核</text>
+    <line class="divider" x1="865" y1="322" x2="1080" y2="322"/>
+    <text class="detail" x="972.5" y="349">按项目工况运行整机</text>
+    <text class="detail" x="972.5" y="373">检查功能与电气约束</text>
+  </g>
+  <g>
+    <rect class="box" x="590" y="275" width="215" height="110"/>
+    <text class="heading" x="697.5" y="307">6  仿真效率复核</text>
+    <line class="divider" x1="590" y1="322" x2="805" y2="322"/>
+    <text class="detail" x="697.5" y="349">按项目定位实际瓶颈</text>
+    <text class="detail" x="697.5" y="373">比较耗时与电气结果</text>
+  </g>
+  <g>
+    <rect class="box" x="315" y="275" width="215" height="110"/>
+    <text class="heading" x="422.5" y="307">7  可视化清晰度检查</text>
+    <line class="divider" x1="315" y1="322" x2="530" y2="322"/>
+    <text class="detail" x="422.5" y="349">自动检查实际几何</text>
+    <text class="detail" x="422.5" y="373">复核原生整图与局部</text>
+  </g>
+  <g>
+    <rect class="box" x="40" y="275" width="215" height="110"/>
+    <text class="heading" x="147.5" y="307">8  重开与交付复核</text>
+    <line class="divider" x1="40" y1="322" x2="255" y2="322"/>
+    <text class="detail" x="147.5" y="349">核对最终工程与依赖</text>
+    <text class="detail" x="147.5" y="373">记录证据及未验证项</text>
+  </g>
+  <path class="flow" d="M 865 330 H 807"/>
+  <path class="flow" d="M 590 330 H 532"/>
+  <path class="flow" d="M 315 330 H 257"/>
+
+  <line x1="40" y1="420" x2="1080" y2="420" class="divider"/>
+  <text class="note" x="560" y="451">各阶段由 Codex 按具体项目复核；发现问题后修正对应部分，并重验受影响范围。</text>
+</svg>
