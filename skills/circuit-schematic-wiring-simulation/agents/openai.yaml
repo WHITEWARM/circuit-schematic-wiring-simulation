@@ -1,0 +1,4 @@
+interface:
+  display_name: "电路原理图设计、可见接线与仿真验证"
+  short_description: "按要求实现电路，以可见原生导线连接，分模块仿真并验证整机与优化速度"
+  default_prompt: "使用 $circuit-schematic-wiring-simulation，按我提出的要求设计并实现电路，先验证模块再连接整机，所有外部接线使用清晰可见的原生导线。"
