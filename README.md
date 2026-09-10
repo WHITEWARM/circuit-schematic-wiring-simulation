@@ -1,60 +1,29 @@
-# 电路原理图设计、可见接线与仿真验证
+# Circuit Schematic Wiring & Simulation
 
-**Circuit Schematic Wiring & Simulation** · Agent Skill · 中文工作流 · MIT
+**English** · [简体中文](README.zh-CN.md) · [Download skill ZIP](https://github.com/WHITEWARM/circuit-schematic-wiring-simulation/releases/latest/download/circuit-schematic-wiring-simulation.zip) · [Releases](https://github.com/WHITEWARM/circuit-schematic-wiring-simulation/releases) · [MIT License](LICENSE)
 
-面向 Codex 的电路设计 skill：按任务要求选用或实现元件，先验证模块，再用清晰可见的导线连接整机，检查真实连通性、优化仿真，并交付可复现的工程与原理图。
+A Codex skill for selecting components, building clearly wired and reusable circuit designs, and troubleshooting modules according to project requirements.
 
-An agent skill for circuit schematic design, explicit visible wiring, modular simulation, stage-by-stage Codex review, and simulation performance analysis. Includes Multisim implementation notes, connectivity comparison, and geometric layout auditing tools.
+Work from component selection through module implementation, local validation, visible interconnections, and system verification. Review the actual circuit at each stage, then improve schematic readability and simulation performance.
 
-**加载 skill 不需要 MCP；自动操作 Multisim 需要可用的执行接口。** 本仓库提供工作流和检查脚本。使用 Multisim MCP 时，仍需单独安装、配置它及本机 Multisim，见下方“Multisim MCP 配套”。
+**Included:** a reusable workflow, Multisim guidance, an external-pin connectivity comparison tool, and an orthogonal layout audit tool. **Running Multisim requires your own installation and a working execution interface**, such as a compatible MCP server. This repository does not bundle a simulator or MCP server.
 
-## 工作流程
+## Quick install
 
-![电路设计与分阶段复核工作流程](assets/workflow.svg)
-
-[查看 SVG 矢量原图](assets/workflow.svg)。采用统一方框、水平/垂直连线和黑白排版，按箭头顺序阅读。
-
-**每个模块、每项修改、每个阶段完成后都有 Codex 复核。复核项根据具体项目生成，检查实际电路及电气连接中存在的问题。** 器件手册、模块接口和项目指标决定检查方式、测试条件及通过标准，不固定套用温度计或数码管案例。失败回到对应环节修复，再重验受影响模块及下游功能。记录“通过 / 失败 / 未验证 / 不适用”及证据；缺少该项所需证据时不写通过。检查点由 Codex 执行，不要求用户逐项确认。
-
-自动几何检查与看图复核共同检查重复线、重合线、遮挡、越界、线距及交叉含义；布局修改后重新核对实际连接和功能。具体要求见 [阶段复核与证据记录](skills/circuit-schematic-wiring-simulation/references/workflow-review.md)。
-
-## 适合做什么
-
-- 按项目的功能、性能、预算和实物制作要求，完成元件选型与电路实现。
-- 采用模块化设计与清晰可见的接线，构建便于理解、验证、修改和复用的电路工程。
-- 排查模块内部及模块间的电气连接、参数、模型和功能问题，定位原因并验证修复结果。
-- 根据具体项目分阶段复核模块与整机，在满足设计要求的前提下改进原理图可读性、仿真效率和工程可移植性。
-
-元件条件来自当前任务，不固定使用某种芯片，不默认禁用或允许单片机，也不默认使用功能等效模型。
-
-## 核心接线要求
-
-**所有元件外部连接都由图上可见的原生电气导线决定。**
-
-信号、电源和地均需绘出连续线路。网络标签只用于说明，不能替代导线；模型不能通过隐藏的全局节点或固定事件绑定绕过外部端口。修改或断开图上的关键线路，实际求解连接必须随之改变。
-
-布局应保留走线间距，避免不同网络重合、重复导线、遮挡元件和文字。空间不足先调整位置或扩大画布。
-
-## 安装到 Codex
-
-### 从 GitHub 安装
-
-将下面这段话发给 Codex：
+Send this to Codex:
 
 ```text
-使用 $skill-installer，从 GitHub 仓库
-https://github.com/WHITEWARM/circuit-schematic-wiring-simulation
-安装 skills/circuit-schematic-wiring-simulation。
+Use $skill-installer to install the skill at
+skills/circuit-schematic-wiring-simulation
+from https://github.com/WHITEWARM/circuit-schematic-wiring-simulation.
 ```
 
-安装后，在下一条消息中调用 `$circuit-schematic-wiring-simulation`。如果技能未显示，重新打开 Codex 后再检查。
+Then invoke `$circuit-schematic-wiring-simulation` in a new message. If the skill is not discovered, restart Codex and try again.
 
-### 手动下载到项目
-
-下载并解压仓库，将 `skills/circuit-schematic-wiring-simulation` 这个完整文件夹复制到目标项目的 `.agents/skills/` 下，最终路径为：
+For a versioned download, use the [latest release](https://github.com/WHITEWARM/circuit-schematic-wiring-simulation/releases/latest). Extract `circuit-schematic-wiring-simulation.zip` and copy the complete skill folder into your project's `.agents/skills/` directory:
 
 ```text
-你的项目/
+your-project/
 └─ .agents/
    └─ skills/
       └─ circuit-schematic-wiring-simulation/
@@ -65,70 +34,111 @@ https://github.com/WHITEWARM/circuit-schematic-wiring-simulation
          └─ scripts/
 ```
 
-在 Codex 中打开该项目后调用技能。保留内部目录结构，不要只复制 `SKILL.md`，也不要多嵌套一层同名文件夹。
+If you download the full repository instead, copy its `skills/circuit-schematic-wiring-simulation` folder. Keep the folder structure intact.
 
-安装位置与发现机制参考 [OpenAI 官方技能文档](https://learn.chatgpt.com/zh-Hans/docs/build-skills)。其他支持 `SKILL.md` 的客户端需要按照各自的安装方式配置，本仓库尚未验证它们的完整兼容性。
+See the [official Codex skill documentation](https://learn.chatgpt.com/docs/build-skills) for discovery and installation locations. This project is community maintained; compatibility with other skill-capable clients has not been fully tested.
 
-## 使用示例
+## What it helps you do
 
-### 设计并实现电路
+- **Select and implement components** to meet functional, performance, budget, and physical-build requirements.
+- **Build readable, reusable circuits** with modular organization and visible native wiring.
+- **Troubleshoot modules and their interfaces**, including connection, parameter, model, and functional problems, then verify the fix.
+- **Review modules and complete systems** against the current project, improving readability, simulation efficiency, and portability while preserving required behavior.
+
+Component choices and review criteria come from the current project. The workflow does not prescribe a particular chip, microcontroller policy, or model abstraction.
+
+## Workflow
+
+![Circuit design and verification workflow with orthogonal connections](assets/workflow-en.svg)
+
+[Open the SVG figure](assets/workflow-en.svg) · [中文流程图](assets/workflow.svg)
+
+Codex reviews **every module and work stage against the actual project requirements, component datasheets, and interfaces**. Review the implemented circuit and electrical connections, not just the plan or whether a tool returned success.
+
+Record each applicable check as **pass, fail, unverified, or not applicable**, with evidence and a reason where needed. A fix invalidates affected earlier results; rerun the relevant module and downstream checks before declaring success.
+
+After system integration and functional review, combine automated geometry checks with inspection of the native schematic at both full-sheet and detailed scales. Recheck connectivity and affected behavior after layout changes.
+
+See [stage reviews and evidence records](skills/circuit-schematic-wiring-simulation/references/workflow-review.md). The installed skill instructions and detailed references are currently written in Chinese; this README and the workflow figure are available in both languages.
+
+## Visible wiring is part of correctness
+
+**Visible native electrical wires must determine all connections between components**, including signals, power, and ground.
+
+Labels may annotate an existing wire. They must not create connections across gaps. Models must expose their external connections through visible pins, without hidden global aliases or fixed cross-component event bindings. Editing a critical wire must change the actual solver connection.
+
+Use readable spacing, clear junctions, and unambiguous crossings. Remove duplicate or overlapping wires, keep symbols and labels clear of routes, and enlarge or rearrange the sheet when necessary.
+
+## Example requests
+
+### Design and implement a circuit
 
 ```text
-使用 $circuit-schematic-wiring-simulation。
-设计 0～100°C 数字温度计，分辨率 0.1°C，目标误差不超过 ±0.5°C。
-允许 LM35 和 ADC，不使用单片机；器件应方便在国内购买和搭建。
-先分析元件模型，再分模块实现、仿真验证，最后连接整机。
-使用 Multisim，所有外部接线必须清晰可见，不能用同名网络标签代替。
+Use $circuit-schematic-wiring-simulation.
+
+Design and implement a circuit for the requirements in this project.
+Select components that meet the specified electrical and purchasing constraints.
+Validate each module before connecting the complete system.
+Use visible native wires for every external signal, power, and ground connection.
+Derive review criteria from this project and report the evidence and any unverified items.
 ```
 
-### 排查和提速
+### Diagnose an existing module
 
 ```text
-使用 $circuit-schematic-wiring-simulation，检查这个原生工程。
-数码管始终显示 0，修改输入也没有变化。先沿信号链定位原因，
-修复后验证不同输入和连续刷新，再测量并优化取得首次有效结果的时间。
+Use $circuit-schematic-wiring-simulation to review this native circuit project.
+
+The module output does not match the expected behavior.
+Inspect its actual components, parameters, electrical connections, and interfaces.
+Identify the cause, fix the affected part, and verify it locally and in the system.
 ```
 
-### 整理原理图
+### Improve layout and simulation performance
 
 ```text
-使用 $circuit-schematic-wiring-simulation，整理已有电路的布局。
-保留原有正确功能，把跨模块信号、电源和地画成连续可见的导线，
-去掉重复走线，避免导线和文字重叠，并核对整理前后的实际连接。
+Use $circuit-schematic-wiring-simulation.
+
+Improve this schematic's readability and investigate its simulation bottleneck.
+Preserve the required electrical behavior and visible wiring.
+Check actual connectivity after layout changes and compare simulation results
+and elapsed time under equivalent test conditions.
 ```
 
-## 环境与能力范围
+## Requirements and scope
 
-| 内容 | 需要的环境 |
+| Task | Requirement |
 |---|---|
-| 加载设计工作流与参考资料 | 支持本地技能的 Codex 环境 |
-| 运行连接比较与几何检查脚本 | Python 3，仅使用标准库；已在 Python 3.12 验证 |
-| 进行 Multisim 原生仿真和工程操作 | 使用者已安装的 Multisim，以及当前环境可用的操作接口或 UI 工具 |
-| 核对器件规格与采购情况 | 厂商资料和当前采购渠道；由任务环境提供访问能力 |
+| Load the workflow | A Codex environment with local skill support |
+| Run the two checkers | Python 3; standard library only, tested with Python 3.12 |
+| Open, edit, and simulate native Multisim circuits | Your installed, licensed Multisim and a compatible execution interface |
+| Check specifications and availability | Manufacturer documentation and current purchasing information |
+| Audit native geometry | An export of actual schematic objects from your EDA tool or a verified adapter |
 
-本包包含工作流、参考资料和两项检查工具。它没有附带 Multisim、MCP 服务端、厂商器件库、原生几何导出适配器、`.ms14` 编解码器或自动布线/仿真引擎；安装 skill 不会自动增加这些底层能力。Multisim 参考来自 14.3 工程实践，其他版本需先用最小电路验证。
+The package does **not** include Multisim, an MCP server, vendor libraries, an `.ms14` codec, native geometry exporters, or an automatic routing/simulation engine. The Multisim notes come from version 14.3 project work; prove the minimum workflow on your own version before scaling up.
 
-功能等效模型只证明其覆盖范围内的行为；完整实物精度仍需要器件误差分析、选型、校准与实测。
+A functional model only verifies the behavior it represents. Physical accuracy still requires appropriate component selection, error analysis, calibration, and measurement.
 
-## Multisim MCP 配套
+### Using Multisim MCP
 
-| 部分 | 职责 |
-|---|---|
-| 本 skill | 元件选择、模块流程、可见接线规则、Codex 复核与验收 |
-| Multisim MCP 或其他可用接口 | 向 Codex 提供工程操作、仿真及导出工具；具体能力以所用版本实测为准 |
-| 本机 Multisim | 打开原生工程、执行仿真、显示原理图及数码管；由使用者自行安装并取得许可 |
+The development environment used the unofficial [multisim-mcp project](https://github.com/yxy050208/multisim-mcp). Install and configure it separately if that is your chosen execution interface.
 
-这次开发环境使用了非官方 [multisim-mcp](https://github.com/yxy050208/multisim-mcp)。2026-09-10 的本机只读检查确认版本为 `1.2.0`，自动化运行环境兼容、原理图模板已就绪。这只证明该机器的环境状态，不证明其他机器安装后即可直接复现全部电路功能。
+The skill defines the design and review process; the MCP server exposes supported operations; the local Multisim installation performs native application work. A successful MCP connection is not evidence that a new schematic, display, or wiring path has been verified.
 
-安装和配置入口、最小验证步骤见 [Multisim 配套接口](skills/circuit-schematic-wiring-simulation/references/multisim.md)。本仓库不打包个人运行目录或从 NI 安装提取的模板。即使 MCP 已连接，也需验证原生显示、可见导线及改线后的求解行为。
+See [Multisim setup and implementation notes](skills/circuit-schematic-wiring-simulation/references/multisim.md) and the [official Codex MCP documentation](https://learn.chatgpt.com/docs/extend/mcp?surface=cli). Local runtime diagnostics for version 1.2.0 passed on the development machine on 2026-09-10; this is not a fresh-machine or end-to-end compatibility guarantee.
 
-Codex 的 MCP 配置方式参考 [OpenAI 官方 MCP 文档](https://learn.chatgpt.com/docs/extend/mcp?surface=cli)。
+## Included checkers
 
-## 连接比较工具
+Run these commands from the repository root.
 
-工具比较两份独立取得的外部引脚分组，忽略网络名称变化，识别漏接、错接、网络合并和网络分裂。例如一份来自可见导线，另一份来自目标软件的实际网表。
+### Compare external-pin connectivity
 
-输入格式：
+Compare independently obtained pin groups, such as visible native-wire connectivity and the solver's exported connectivity:
+
+```text
+python skills/circuit-schematic-wiring-simulation/scripts/compare_connectivity.py visible.json native.json --report comparison.json
+```
+
+Each input uses this structure:
 
 ```json
 {
@@ -140,58 +150,60 @@ Codex 的 MCP 配置方式参考 [OpenAI 官方 MCP 文档](https://learn.chatgp
 }
 ```
 
-在仓库根目录运行：
+The tool ignores net names and ordering while detecting changed pin groupings, missing/extra pins, splits, and merges. Exit codes: `0` equivalent, `1` different, `2` invalid input or file error.
 
-```text
-python skills/circuit-schematic-wiring-simulation/scripts/compare_connectivity.py visible.json native.json --report comparison.json
-```
+It does not parse `.ms14`, extract wires, inspect hidden model bindings, or run simulations. Independently obtain the input data; two matching exports alone do not prove the complete circuit is correct.
 
-退出码 `0`：分组相同；`1`：存在连接差异；`2`：输入或文件错误。
-
-该工具不直接读取 `.ms14`、不自动识别图像或导线几何，也不运行仿真。需要先独立取得输入数据；两份文件相同不能代替实际接线验收。完整检查方法见 [可见接线参考](skills/circuit-schematic-wiring-simulation/references/visible-wiring.md)。
-
-## 自动几何检查工具
-
-从最终原生工程导出导线段、元件主体框、文字框及画布范围后运行：
+### Audit orthogonal schematic geometry
 
 ```text
 python skills/circuit-schematic-wiring-simulation/scripts/audit_layout.py geometry.json --report layout-report.json
 ```
 
-检查重复/重合线、过近的平行线、线穿元件或文字、元件/文字重叠、画布越界、零长度线和字号；不同网络交叉会列为看图复核项，不能仅凭几何认定短路。输入格式见 [几何数据与审查步骤](skills/circuit-schematic-wiring-simulation/references/visible-wiring.md)。
+The input describes the actual canvas, horizontal/vertical wire segments, component body boxes, and label boxes. The checker reports duplicate/overlapping wires, insufficient parallel-wire spacing, obstructions, overlapping bodies/labels, objects outside the canvas, zero-length wires, and font-size issues. Crossings between different nets require visual review; geometry alone cannot prove a short circuit.
 
-退出码 `0`：已导出的几何未发现问题；`1`：有问题或待复核交叉；`2`：输入或文件错误。脚本只检查正交线段，**不读取 `.ms14`，不验证导出完整性，也不代替实际连接检查或 Codex 看图**。报告明确保留这些未检查范围。
+Exit codes: `0` no findings in the exported geometry, `1` findings or crossings to review, `2` invalid input or file error. Set spacing and font thresholds for the project's intended viewing or printing size.
 
-## 验证
+The report explicitly leaves native connectivity, rendered readability, and export completeness unchecked. Follow it with native schematic inspection. See [data formats and audit procedure](skills/circuit-schematic-wiring-simulation/references/visible-wiring.md) for details.
 
-在仓库根目录运行：
+## Validation
 
 ```text
 python -m unittest discover -s tests -v
 ```
 
-测试覆盖连接比较、几何审查、非法输入及报告文件保护。测试只验证两个检查工具及包结构，不等同于已经完成某个新电路的仿真、原生显示或自动布线验收。
+The 38 tests cover the two checkers and package structure, including invalid inputs and protection against overwriting input files. They do not constitute end-to-end Multisim validation or proof that a newly generated circuit works.
 
-## 仓库内容
+## Project files
 
 ```text
 README.md
+README.zh-CN.md
 LICENSE
-assets/workflow.svg
+assets/
+  workflow-en.svg
+  workflow.svg
 skills/circuit-schematic-wiring-simulation/
   SKILL.md
   LICENSE
   agents/openai.yaml
-  references/visible-wiring.md
-  references/verification-optimization.md
-  references/multisim.md
-  references/workflow-review.md
-  scripts/compare_connectivity.py
-  scripts/audit_layout.py
-tests/test_connectivity.py
-tests/test_layout.py
+  references/
+    workflow-review.md
+    visible-wiring.md
+    verification-optimization.md
+    multisim.md
+  scripts/
+    compare_connectivity.py
+    audit_layout.py
+tests/
+  test_connectivity.py
+  test_layout.py
 ```
 
-## 许可
+## Feedback
 
-本仓库原创工作流、参考说明与脚本采用 [MIT License](LICENSE)。软件和厂商资料等外部资源不随本包分发，其使用遵循各自许可。
+[Open an issue](https://github.com/WHITEWARM/circuit-schematic-wiring-simulation/issues) with the relevant software/version, the expected and observed behavior, and a minimal reproducible example. Distinguish a workflow instruction problem from a checker or simulator-interface problem so the fix can target the right layer.
+
+## License
+
+Original instructions, references, figures, and scripts are distributed under the [MIT License](LICENSE). External software, device models, and manufacturer resources are not bundled and remain subject to their own licenses.
